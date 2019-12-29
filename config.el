@@ -28,7 +28,7 @@
 (setq doom-theme 'doom-one-light)
 
 ;; If you intend to use org, it is recommended you change this!
-(setq org-directory "~/org/")
+(setq org-directory "~/Dropbox/org/")
 
 ;; If you want to change the style of line numbers, change this to `relative' or
 ;; `nil' to disable it:
@@ -61,6 +61,68 @@
 ;;    "-I/usr/local/opt/llvm/include"
 
 ;; ))
+
+(map! :ne "M-/" #'comment-or-uncomment-region)
 (setq +word-wrap-extra-indent 'double)
-(setq org-log-done 'time)
 (setq +latex-viewers '(pdf-tools))
+
+(after! org-fancy-priorities
+  (setq org-fancy-priorities-list '("HIGH", "MID", "LOW", "OPTIONAL")))
+
+(after! org
+  (add-to-list 'org-modules 'org-habit t)
+  (setq org-highest-priority ?A)
+  (setq org-lowest-priority ?D)
+  (setq org-log-done 'time)
+  (setq org-priority-faces
+        '((65 . "#131E3A") (66 . "#1134A6") (67 . "#6693F5") (68 . "#4D516D")))
+  (setq org-ellipsis " ▾ ")
+  (setq org-tag-alist '((:startgroup . nil)
+                      ("@school" . ?w) ("@personal" . ?h) ("@jobs" . ?j)
+                      (:endgroup . nil))
+  )
+)
+
+(def-package! org-super-agenda
+  :after org-agenda
+  :init
+  (setq org-super-agenda-header-map nil)
+  (setq org-super-agenda-groups '((:name "Today"
+                                  :time-grid t
+                                  :scheduled today)
+                           (:name "Due today"
+                                  :deadline today)
+                           (:name "Important"
+                                  :priority "A")
+                           (:name "Overdue"
+                                  :deadline past)
+                           (:name "Due soon"
+                                  :deadline future)))
+  :config
+  (org-super-agenda-mode)
+)
+
+(use-package! calfw-ical
+  :after calfw)
+
+(use-package! org-gcal
+  :after org-mode
+  :config
+  (setq
+   org-gcal-client-id "203021417575-2opod1bfrmj4egea5sbdmensbmm2jcd2.apps.googleusercontent.com"
+   org-gcal-client-secret "vVoHRiIQAyG_cv6pISCXGjO4"
+   org-gcal-file-alist '(("engyingxuan@gmail.com" . "~/Dropbox/org/gcal.org"))
+   )
+)
+
+
+
+(defun my-open-calendar ()
+  (interactive)
+  (cfw:open-calendar-buffer
+   :contents-sources
+   (list
+    (cfw:org-create-source (face-foreground 'default)); orgmode source
+)))
+
+(setq +calendar-open-function #'my-open-calendar)

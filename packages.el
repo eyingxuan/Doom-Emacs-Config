@@ -44,3 +44,5 @@
 (package! proof-general)
 (package! px)
 (package! multi-term)
+(package! org-super-agenda)
+(package! calfw-ical)
