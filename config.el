@@ -83,7 +83,7 @@
   )
 )
 
-(def-package! org-super-agenda
+(use-package! org-super-agenda
   :after org-agenda
   :init
   (setq org-super-agenda-header-map nil)
@@ -104,6 +104,11 @@
 
 (use-package! calfw-ical
   :after calfw)
+
+(after! calfw
+  (define-key cfw:calendar-mode-map (kbd "SPC") 'doom/leader))
+
+
 
 (use-package! org-gcal
   :after org-mode
