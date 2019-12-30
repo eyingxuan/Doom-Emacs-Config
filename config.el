@@ -66,6 +66,10 @@
 (setq +word-wrap-extra-indent 'double)
 (setq +latex-viewers '(pdf-tools))
 
+(after! lsp-ui
+  (custom-set-faces! '(lsp-ui-sideline-code-action :foreground "blue"))
+)
+
 (after! org-fancy-priorities
   (setq org-fancy-priorities-list '("HIGH", "MID", "LOW", "OPTIONAL")))
 
@@ -110,6 +114,8 @@
   (define-key cfw:calendar-mode-map (kbd "d") 'cfw:show-details-command)
 )
 
+(after! rust
+  (setq rustic-indent-offset 2))
 
 
 (use-package! org-gcal
