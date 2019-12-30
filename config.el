@@ -106,19 +106,18 @@
   :after calfw)
 
 (after! calfw
-  (define-key cfw:calendar-mode-map (kbd "SPC") 'doom/leader))
+  (define-key cfw:calendar-mode-map (kbd "SPC") 'doom/leader)
+  (define-key cfw:calendar-mode-map (kbd "d") 'cfw:show-details-command)
+)
 
 
 
 (use-package! org-gcal
-  :after org-mode
+  :after org-agenda
   :config
-  (setq
-   org-gcal-client-id "203021417575-2opod1bfrmj4egea5sbdmensbmm2jcd2.apps.googleusercontent.com"
-   org-gcal-client-secret "vVoHRiIQAyG_cv6pISCXGjO4"
-   org-gcal-file-alist '(("engyingxuan@gmail.com" . "~/Dropbox/org/gcal.org"))
-   )
+  (load "~/.doom.d/orgcal.el")
 )
+
 
 
 
