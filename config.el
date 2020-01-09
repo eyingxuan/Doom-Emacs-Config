@@ -71,13 +71,17 @@
 )
 
 (after! org-fancy-priorities
-  (setq org-fancy-priorities-list '("HIGH", "MID", "LOW", "OPTIONAL")))
+  (setq org-fancy-priorities-list '("[#A]", "[#B]", "[#C]", "OPTIONAL")))
 
 (after! org
+  (setq org-capture-templates
+    `(("i" "inbox" entry (file "~/Dropbox/org/inbox.org") "* TODO %?")))
   (add-to-list 'org-modules 'org-habit t)
+  (setq org-agenda-start-day nil)
   (setq org-highest-priority ?A)
   (setq org-lowest-priority ?D)
   (setq org-log-done 'time)
+  (setq org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)" "CANCELLED(c)")))
   (setq org-priority-faces
         '((65 . "#131E3A") (66 . "#1134A6") (67 . "#6693F5") (68 . "#4D516D")))
   (setq org-ellipsis " ▾ ")
@@ -87,35 +91,53 @@
   )
 )
 
-(use-package! org-super-agenda
-  :after org-agenda
-  :init
-  (setq org-super-agenda-header-map nil)
-  (setq org-super-agenda-groups '((:name "Today"
-                                  :time-grid t
-                                  :scheduled today)
-                           (:name "Due today"
-                                  :deadline today)
-                           (:name "Important"
-                                  :priority "A")
-                           (:name "Overdue"
-                                  :deadline past)
-                           (:name "Due soon"
-                                  :deadline future)))
-  :config
-  (org-super-agenda-mode)
+(after! org-agenda
+  (map! :leader
+    (:prefix "m"
+     "p" #'org-agenda-priority
+      ))
+  (advice-add 'org-refile :after
+        (lambda (&rest _)
+        (org-save-all-org-buffers)))
+  (setq ying/org-agenda-todo-view
+    `("c" "Agenda"
+       ((agenda ""
+          ((org-agenda-span 'day)
+            (org-deadline-warning-days 365)))
+         (todo "TODO"
+           ((org-agenda-overriding-header "To Refile")
+             (org-agenda-files '("~/Dropbox/org/inbox.org"))))
+         (todo "NEXT"
+           ((org-agenda-overriding-header "In Progress")
+             (org-agenda-files '("~/Dropbox/org/todo.org" "~/Dropbox/org/projects.org")
+               )))
+         (todo "TODO"
+           ((org-agenda-overriding-header "Projects")
+             (org-agenda-files '("~/Dropbox/org/projects.org")))
+           )
+         (todo "TODO"
+           ((org-agenda-overriding-header "One-off Tasks")
+             (org-agenda-files '("~/Dropbox/org/todo.org"))
+             (org-agenda-skip-function '(org-agenda-skip-entry-if 'deadline 'scheduled))
+             )
+           ))
+       nil))
+  (add-to-list 'org-agenda-custom-commands `,ying/org-agenda-todo-view)
 )
+
+
+
 
 (use-package! calfw-ical
   :after calfw)
 
 (after! calfw
-  (define-key cfw:calendar-mode-map (kbd "SPC") 'doom/leader)
-  (define-key cfw:calendar-mode-map (kbd "d") 'cfw:show-details-command)
+  (define-key cfw:calendar-mode-map (kbd "SPC") #'doom/leader)
+  (define-key cfw:calendar-mode-map (kbd "d") #'cfw:show-details-command)
 )
 
-(after! rust
-  (setq rustic-indent-offset 2))
+;; (after! rust
+;;   (setq rustic-indent-offset 2))
 
 
 (use-package! org-gcal
