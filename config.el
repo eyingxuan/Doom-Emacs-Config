@@ -25,7 +25,10 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. These are the defaults.
-(setq doom-theme 'doom-one-light)
+(setq doom-theme 'doom-opera-light)
+
+(after! solaire-mode
+  (solaire-mode-swap-bg))
 
 ;; If you intend to use org, it is recommended you change this!
 (setq org-directory "~/Dropbox/org/")
@@ -40,7 +43,7 @@
 ;; - `load!' for loading external *.el files relative to this one
 ;; - `use-package' for configuring packages
 ;; - `after!' for running code after a package has loaded
-;; - `add-load-path!' for adding directories to the `load-path', where Emacs
+;; - add-load-path! for adding directories to the load-path, where Emacs
 ;;   looks when you load packages with `require' or `use-package'.
 ;; - `map!' for binding new keys
 ;;
@@ -92,13 +95,21 @@
 )
 
 (after! org-agenda
-  (map! :leader
-    (:prefix "m"
-     "p" #'org-agenda-priority
-      ))
+  ;; (map! :leader
+  ;;   ( :prefix "m"
+  ;;    "p" #'org-agenda-priority
+  ;;     ))
+     (map! (:map org-agenda-mode-map :localleader "p" #'org-agenda-priority))
   (advice-add 'org-refile :after
         (lambda (&rest _)
         (org-save-all-org-buffers)))
+  (defun org-agenda-process-inbox-item()
+    (org-with-wide-buffer
+      (org-agenda-set-tags)
+      (org-agenda-priority)
+      (call-interactively 'org-agenda-set-effort)
+      (org-agenda-refile nil nil t))
+    )
   (setq ying/org-agenda-todo-view
     `("c" "Agenda"
        ((agenda ""
@@ -109,7 +120,7 @@
              (org-agenda-files '("~/Dropbox/org/inbox.org"))))
          (todo "NEXT"
            ((org-agenda-overriding-header "In Progress")
-             (org-agenda-files '("~/Dropbox/org/todo.org" "~/Dropbox/org/projects.org")
+             (org-agenda-files '("~/Dropbox/org/todo.org" "~/Dropbox/org/projects.org" "~/Dropbox/org/habits.org")
                )))
          (todo "TODO"
            ((org-agenda-overriding-header "Projects")
@@ -157,4 +168,21 @@
     (cfw:org-create-source (face-foreground 'default)); orgmode source
 )))
 
+(defun ying/org-agenda-process-inbox-item()
+  (interactive)
+    (org-with-wide-buffer
+      (org-agenda-set-tags)
+      (org-agenda-priority)
+      (call-interactively 'org-agenda-set-effort)
+      (org-agenda-refile nil nil t))
+    )
+
 (setq +calendar-open-function #'my-open-calendar)
+
+(add-hook 'TeX-mode-hook
+  (lambda()
+    (add-hook 'after-save-hook
+      (lambda()
+        (TeX-run-latexmk "LaTeX"
+                               (format "latexmk -pdf --synctex=1 %s" (concat "'" buffer-file-name "'"))
+                               (file-name-base (buffer-file-name)))) nil t)))
