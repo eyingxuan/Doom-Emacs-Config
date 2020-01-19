@@ -29,7 +29,7 @@
 
 
 ;; If you intend to use org, it is recommended you change this!
-(setq org-directory "~/Dropbox/org/")
+(setq org-directory "~/Library/Mobile Documents/iCloud~com~appsonthemove~beorg/Documents/org")
 
 ;; If you want to change the style of line numbers, change this to `relative' or
 ;; `nil' to disable it:
@@ -75,8 +75,10 @@
   (setq org-fancy-priorities-list '("[#A]", "[#B]", "[#C]", "OPTIONAL")))
 
 (after! org
+  (add-to-list 'org-agenda-files "~/org/gcal.org")
+  (add-to-list 'org-agenda-files "~/org/labs.org")
   (setq org-capture-templates
-    `(("i" "inbox" entry (file "~/Dropbox/org/inbox.org") "* TODO %?")))
+    `(("i" "inbox" entry (file "~/Library/Mobile Documents/iCloud~com~appsonthemove~beorg/Documents/org/inbox.org") "* TODO %?")))
   (add-to-list 'org-modules 'org-habit t)
   (setq org-agenda-start-day nil)
   (setq org-highest-priority ?A)
@@ -115,18 +117,20 @@
             (org-deadline-warning-days 365)))
          (todo "TODO"
            ((org-agenda-overriding-header "To Refile")
-             (org-agenda-files '("~/Dropbox/org/inbox.org"))))
+             (org-agenda-files '("~/Library/Mobile Documents/iCloud~com~appsonthemove~beorg/Documents/org/inbox.org"))))
          (todo "NEXT"
            ((org-agenda-overriding-header "In Progress")
-             (org-agenda-files '("~/Dropbox/org/todo.org" "~/Dropbox/org/projects.org" "~/Dropbox/org/habits.org")
+             (org-agenda-files '("~/Library/Mobile Documents/iCloud~com~appsonthemove~beorg/Documents/org/todo.org"
+                                 "~/Library/Mobile Documents/iCloud~com~appsonthemove~beorg/Documents/org/projects.org"
+                                 "~/Library/Mobile Documents/iCloud~com~appsonthemove~beorg/Documents/org/habits.org")
                )))
          (todo "TODO"
            ((org-agenda-overriding-header "Projects")
-             (org-agenda-files '("~/Dropbox/org/projects.org")))
+             (org-agenda-files '("~/Library/Mobile Documents/iCloud~com~appsonthemove~beorg/Documents/org/projects.org")))
            )
          (todo "TODO"
            ((org-agenda-overriding-header "One-off Tasks")
-             (org-agenda-files '("~/Dropbox/org/todo.org"))
+             (org-agenda-files '("~/Library/Mobile Documents/iCloud~com~appsonthemove~beorg/Documents/org/todo.org"))
              (org-agenda-skip-function '(org-agenda-skip-entry-if 'deadline 'scheduled))
              )
            ))
