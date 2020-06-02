@@ -25,8 +25,7 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. These are the defaults.
-(setq doom-theme 'doom-one-light)
-;; (setq doom-theme 'doom-one)
+(setq doom-theme 'doom-dracula)
 
 
 ;; If you intend to use org, it is recommended you change this!
@@ -52,23 +51,10 @@
 ;;
 ;; You can also try 'gd' (or 'C-c g d') to jump to their definition and see how
 ;; they are implemented.
-;;(require 'company)
-;;(setq company-idle-delay 0.2
-;;       company-minimum-prefix-length 3)
-;;(after! 'irony (setq irony-additional-clang-options '(
-;;  "-I/usr/local/include"
-;;                                                      )))
-;;(setq irony-additional-clang-options '(
-;;    "-I/usr/local/opt/llvm/include/c++/v1/"
-;;    "-I/usr/local/opt/llvm/include"
-
-;; ))
-;;
-;;
 
 (after! hl-fill-column
   (custom-set-faces! '(hl-fill-column-face :foreground "black" :background "grey"))
-)
+  )
 
 (map! :ne "M-/" #'comment-or-uncomment-region)
 (setq +word-wrap-extra-indent 'double)
@@ -77,18 +63,18 @@
 (after! lsp-ui
   (custom-set-faces! '(lsp-ui-sideline-code-action :foreground "blue"))
   (set-lookup-handlers! 'lsp-ui-mode nil)
-)
+  )
 
 (after! lsp-mode
   (setq lsp-diagnostics-attributes '((unnecessary :background "gray")
- (deprecated :strike-through t)))
-)
+                                     (deprecated :strike-through t)))
+  )
 
 (after! tuareg
- ;; (set-lookup-handlers! 'tuareg-mode :async t
- ;;   :definition #'merlin-locate
- ;;   :references #'merlin-occurrences
- ;;   :documentation #'merlin-document)
+  ;; (set-lookup-handlers! 'tuareg-mode :async t
+  ;;   :definition #'merlin-locate
+  ;;   :references #'merlin-occurrences
+  ;;   :documentation #'merlin-document)
   (remove-hook! 'tuareg-mode-local-vars-hook #'flyspell-prog-mode)
   )
 
@@ -107,8 +93,8 @@
   (add-to-list 'org-agenda-files "~/org/gcal.org")
   (add-to-list 'org-agenda-files "~/org/labs.org")
   (setq org-capture-templates
-    '(("i" "inbox" entry (file "~/Dropbox/org/inbox.org") "* TODO %?")
-      ("t" "today" entry (file "~/Dropbox/org/todo.org") "* TODAY %?")))
+        '(("i" "inbox" entry (file "~/Dropbox/org/inbox.org") "* TODO %?")
+          ("t" "today" entry (file "~/Dropbox/org/todo.org") "* TODAY %?")))
   (add-to-list 'org-modules 'org-habit t)
   (setq org-agenda-start-day nil)
   (setq org-highest-priority ?A)
@@ -119,66 +105,66 @@
         '((65 . "#131E3A") (66 . "#1134A6") (67 . "#6693F5") (68 . "#4D516D")))
   (setq org-ellipsis " ▾ ")
   (setq org-tag-alist '((:startgroup . nil)
-                      ("@school" . ?w) ("@personal" . ?h) ("@jobs" . ?j)
-                      (:endgroup . nil))
+                        ("@school" . ?w) ("@personal" . ?h) ("@jobs" . ?j)
+                        (:endgroup . nil))
+        )
   )
-)
 
 (after! org-agenda
   ;; (map! :leader
   ;;   ( :prefix "m"
   ;;    "p" #'org-agenda-priority
   ;;     ))
-     (map! (:map org-agenda-mode-map :localleader "p" #'org-agenda-priority))
+  (map! (:map org-agenda-mode-map :localleader "p" #'org-agenda-priority))
   (advice-add 'org-refile :after
-        (lambda (&rest _)
-        (org-save-all-org-buffers)))
+              (lambda (&rest _)
+                (org-save-all-org-buffers)))
   (defun org-agenda-process-inbox-item()
     (org-with-wide-buffer
-      (org-agenda-set-tags)
-      (org-agenda-priority)
-      (call-interactively 'org-agenda-set-effort)
-      (org-agenda-refile nil nil t))
+     (org-agenda-set-tags)
+     (org-agenda-priority)
+     (call-interactively 'org-agenda-set-effort)
+     (org-agenda-refile nil nil t))
     )
   (setq ying/org-agenda-todo-view
-    `("c" "Agenda"
-       ((agenda ""
-          ((org-agenda-span 'day)
-            (org-deadline-warning-days 365)))
-         (todo "TODO"
-           ((org-agenda-overriding-header "To Refile")
-             (org-agenda-files '("~/Dropbox/org/inbox.org"))))
-         (todo "SUBMIT"
-           ((org-agenda-overriding-header "To Submit")
-             (org-agenda-files '("~/Dropbox/org/todo.org" "~/Dropbox/org/projects.org" "~/Dropbox/org/habits.org"))
-             )
-           )
-         (todo "TODAY"
-           ((org-agenda-overriding-header "Today")
-             (org-agenda-files '("~/Dropbox/org/todo.org" "~/Dropbox/org/projects.org" "~/Dropbox/org/habits.org"))))
-         (todo "NEXT"
-           ((org-agenda-overriding-header "In Progress")
-             (org-agenda-files '("~/Dropbox/org/todo.org" "~/Dropbox/org/projects.org" "~/Dropbox/org/habits.org")
-               )))
-         (todo "TODO"
-           ((org-agenda-overriding-header "Projects")
-             (org-agenda-files '("~/Dropbox/org/projects.org")))
-           )
-         (todo "TODO"
-           ((org-agenda-overriding-header "One-off Tasks")
-             (org-agenda-files '("~/Dropbox/org/todo.org"))
-             (org-agenda-skip-function '(org-agenda-skip-entry-if 'deadline 'scheduled))
-             )
-           ))
-       nil))
+        `("c" "Agenda"
+          ((agenda ""
+                   ((org-agenda-span 'day)
+                    (org-deadline-warning-days 365)))
+           (todo "TODO"
+                 ((org-agenda-overriding-header "To Refile")
+                  (org-agenda-files '("~/Dropbox/org/inbox.org"))))
+           (todo "SUBMIT"
+                 ((org-agenda-overriding-header "To Submit")
+                  (org-agenda-files '("~/Dropbox/org/todo.org" "~/Dropbox/org/projects.org" "~/Dropbox/org/habits.org"))
+                  )
+                 )
+           (todo "TODAY"
+                 ((org-agenda-overriding-header "Today")
+                  (org-agenda-files '("~/Dropbox/org/todo.org" "~/Dropbox/org/projects.org" "~/Dropbox/org/habits.org"))))
+           (todo "NEXT"
+                 ((org-agenda-overriding-header "In Progress")
+                  (org-agenda-files '("~/Dropbox/org/todo.org" "~/Dropbox/org/projects.org" "~/Dropbox/org/habits.org")
+                                    )))
+           (todo "TODO"
+                 ((org-agenda-overriding-header "Projects")
+                  (org-agenda-files '("~/Dropbox/org/projects.org")))
+                 )
+           (todo "TODO"
+                 ((org-agenda-overriding-header "One-off Tasks")
+                  (org-agenda-files '("~/Dropbox/org/todo.org"))
+                  (org-agenda-skip-function '(org-agenda-skip-entry-if 'deadline 'scheduled))
+                  )
+                 ))
+          nil))
   (add-to-list 'org-agenda-custom-commands `,ying/org-agenda-todo-view)
-)
+  )
 
 
 (after! calfw
   (define-key cfw:calendar-mode-map (kbd "SPC") #'doom/leader)
   (define-key cfw:calendar-mode-map (kbd "d") #'cfw:show-details-command)
-)
+  )
 
 ;; (after! rust
 ;;   (setq rustic-indent-offset 2))
@@ -193,16 +179,16 @@
    :contents-sources
    (list
     (cfw:org-create-source (face-foreground 'default)); orgmode source
-)))
+    )))
 
 (defun ying/org-agenda-process-inbox-item()
   (interactive)
-    (org-with-wide-buffer
-      (org-agenda-set-tags)
-      (org-agenda-priority)
-      (call-interactively 'org-agenda-set-effort)
-      (org-agenda-refile nil nil t))
-    )
+  (org-with-wide-buffer
+   (org-agenda-set-tags)
+   (org-agenda-priority)
+   (call-interactively 'org-agenda-set-effort)
+   (org-agenda-refile nil nil t))
+  )
 
 (setq +calendar-open-function #'my-open-calendar)
 
@@ -213,56 +199,53 @@
 
 (after! editorconfig
   (add-to-list 'editorconfig-indentation-alist '(rjsx-mode js2-basic-offset
-                                                sgml-basic-offset))
-)
+                                                           sgml-basic-offset))
+  )
 
 
 (add-hook 'TeX-mode-hook
-  (lambda()
-    (add-hook 'after-save-hook
-      (lambda()
-        (TeX-run-latexmk "LaTeX"
-                               (format "latexmk -pdf --synctex=1 %s" (concat "'" buffer-file-name "'"))
-                               (file-name-base (buffer-file-name)))) nil t)))
-
+          (lambda()
+            (add-hook 'after-save-hook
+                      (lambda()
+                        (TeX-run-latexmk "LaTeX"
+                                         (format "latexmk -pdf --synctex=1 %s" (concat "'" buffer-file-name "'"))
+                                         (file-name-base (buffer-file-name)))) nil t)))
 
 (setq lsp-signature-auto-activate nil)
 
-(if (not (display-graphic-p))
-  (load-theme 'doom-dark+ t)
-  )
+
 
 (use-package! multi-vterm
-	:config
-	(add-hook 'vterm-mode-hook
-			(lambda ()
-			(setq-local evil-insert-state-cursor 'box)
-			(evil-insert-state)))
-	(define-key vterm-mode-map [return]                      #'vterm-send-return)
+  :config
+  (add-hook 'vterm-mode-hook
+            (lambda ()
+              (setq-local evil-insert-state-cursor 'box)
+              (evil-insert-state)))
+  (define-key vterm-mode-map [return]                      #'vterm-send-return)
 
-	(setq vterm-keymap-exceptions nil)
-	(evil-define-key 'insert vterm-mode-map (kbd "C-e")      #'vterm--self-insert)
-	(evil-define-key 'insert vterm-mode-map (kbd "C-f")      #'vterm--self-insert)
-	(evil-define-key 'insert vterm-mode-map (kbd "C-a")      #'vterm--self-insert)
-	(evil-define-key 'insert vterm-mode-map (kbd "C-v")      #'vterm--self-insert)
-	(evil-define-key 'insert vterm-mode-map (kbd "C-b")      #'vterm--self-insert)
-	(evil-define-key 'insert vterm-mode-map (kbd "C-w")      #'vterm--self-insert)
-	(evil-define-key 'insert vterm-mode-map (kbd "C-u")      #'vterm--self-insert)
-	(evil-define-key 'insert vterm-mode-map (kbd "C-d")      #'vterm--self-insert)
-	(evil-define-key 'insert vterm-mode-map (kbd "C-n")      #'vterm--self-insert)
-	(evil-define-key 'insert vterm-mode-map (kbd "C-m")      #'vterm--self-insert)
-	(evil-define-key 'insert vterm-mode-map (kbd "C-p")      #'vterm--self-insert)
-	(evil-define-key 'insert vterm-mode-map (kbd "C-j")      #'vterm--self-insert)
-	(evil-define-key 'insert vterm-mode-map (kbd "C-k")      #'vterm--self-insert)
-	(evil-define-key 'insert vterm-mode-map (kbd "C-r")      #'vterm--self-insert)
-	(evil-define-key 'insert vterm-mode-map (kbd "C-t")      #'vterm--self-insert)
-	(evil-define-key 'insert vterm-mode-map (kbd "C-g")      #'vterm--self-insert)
-	(evil-define-key 'insert vterm-mode-map (kbd "C-c")      #'vterm--self-insert)
-	(evil-define-key 'insert vterm-mode-map (kbd "C-SPC")    #'vterm--self-insert)
-	(evil-define-key 'normal vterm-mode-map (kbd "C-d")      #'vterm--self-insert)
-	(evil-define-key 'normal vterm-mode-map (kbd ",c")       #'multi-vterm)
-	(evil-define-key 'normal vterm-mode-map (kbd ",n")       #'multi-vterm-next)
-	(evil-define-key 'normal vterm-mode-map (kbd ",p")       #'multi-vterm-prev)
-	(evil-define-key 'normal vterm-mode-map (kbd "i")        #'evil-insert-resume)
-	(evil-define-key 'normal vterm-mode-map (kbd "o")        #'evil-insert-resume)
-	(evil-define-key 'normal vterm-mode-map (kbd "<return>") #'evil-insert-resume))
+  (setq vterm-keymap-exceptions nil)
+  (evil-define-key 'insert vterm-mode-map (kbd "C-e")      #'vterm--self-insert)
+  (evil-define-key 'insert vterm-mode-map (kbd "C-f")      #'vterm--self-insert)
+  (evil-define-key 'insert vterm-mode-map (kbd "C-a")      #'vterm--self-insert)
+  (evil-define-key 'insert vterm-mode-map (kbd "C-v")      #'vterm--self-insert)
+  (evil-define-key 'insert vterm-mode-map (kbd "C-b")      #'vterm--self-insert)
+  (evil-define-key 'insert vterm-mode-map (kbd "C-w")      #'vterm--self-insert)
+  (evil-define-key 'insert vterm-mode-map (kbd "C-u")      #'vterm--self-insert)
+  (evil-define-key 'insert vterm-mode-map (kbd "C-d")      #'vterm--self-insert)
+  (evil-define-key 'insert vterm-mode-map (kbd "C-n")      #'vterm--self-insert)
+  (evil-define-key 'insert vterm-mode-map (kbd "C-m")      #'vterm--self-insert)
+  (evil-define-key 'insert vterm-mode-map (kbd "C-p")      #'vterm--self-insert)
+  (evil-define-key 'insert vterm-mode-map (kbd "C-j")      #'vterm--self-insert)
+  (evil-define-key 'insert vterm-mode-map (kbd "C-k")      #'vterm--self-insert)
+  (evil-define-key 'insert vterm-mode-map (kbd "C-r")      #'vterm--self-insert)
+  (evil-define-key 'insert vterm-mode-map (kbd "C-t")      #'vterm--self-insert)
+  (evil-define-key 'insert vterm-mode-map (kbd "C-g")      #'vterm--self-insert)
+  (evil-define-key 'insert vterm-mode-map (kbd "C-c")      #'vterm--self-insert)
+  (evil-define-key 'insert vterm-mode-map (kbd "C-SPC")    #'vterm--self-insert)
+  (evil-define-key 'normal vterm-mode-map (kbd "C-d")      #'vterm--self-insert)
+  (evil-define-key 'normal vterm-mode-map (kbd ",c")       #'multi-vterm)
+  (evil-define-key 'normal vterm-mode-map (kbd ",n")       #'multi-vterm-next)
+  (evil-define-key 'normal vterm-mode-map (kbd ",p")       #'multi-vterm-prev)
+  (evil-define-key 'normal vterm-mode-map (kbd "i")        #'evil-insert-resume)
+  (evil-define-key 'normal vterm-mode-map (kbd "o")        #'evil-insert-resume)
+  (evil-define-key 'normal vterm-mode-map (kbd "<return>") #'evil-insert-resume))
