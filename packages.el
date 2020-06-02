@@ -45,3 +45,5 @@
 (package! multi-term)
 (package! org-fancy-priorities)
 (package! vagrant-tramp)
+(package! vterm)
+(package! multi-vterm)
