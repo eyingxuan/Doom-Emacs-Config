@@ -25,6 +25,7 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. These are the defaults.
+;; (setq doom-theme 'doom-one)
 (setq doom-theme 'doom-dracula)
 
 
@@ -213,7 +214,9 @@
 
 (setq lsp-signature-auto-activate nil)
 
-
+(if (not (display-graphic-p))
+  (custom-set-faces! '(default :background "unspecified-bg"))
+  )
 
 (use-package! multi-vterm
   :config
