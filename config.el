@@ -62,7 +62,6 @@
 (setq +latex-viewers '(pdf-tools))
 
 (after! lsp-ui
-  (custom-set-faces! '(lsp-ui-sideline-code-action :foreground "blue"))
   (set-lookup-handlers! 'lsp-ui-mode nil)
   )
 
@@ -102,8 +101,8 @@
   (setq org-lowest-priority ?D)
   (setq org-log-done 'time)
   (setq org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "TODAY(o)"  "SUBMIT(s)" "|" "DONE(d)" "CANCELLED(c)")))
-  (setq org-priority-faces
-        '((65 . "#131E3A") (66 . "#1134A6") (67 . "#6693F5") (68 . "#4D516D")))
+  ;; (setq org-priority-faces
+  ;;       '((65 . "#131E3A") (66 . "#1134A6") (67 . "#6693F5") (68 . "#4D516D")))
   (setq org-ellipsis " ▾ ")
   (setq org-tag-alist '((:startgroup . nil)
                         ("@school" . ?w) ("@personal" . ?h) ("@jobs" . ?j)
@@ -198,6 +197,7 @@
 
 (add-to-list 'auto-mode-alist '("\\.js\\'" . rjsx-mode))
 
+
 (after! editorconfig
   (add-to-list 'editorconfig-indentation-alist '(rjsx-mode js2-basic-offset
                                                            sgml-basic-offset))
@@ -212,7 +212,6 @@
                                          (format "latexmk -pdf --synctex=1 %s" (concat "'" buffer-file-name "'"))
                                          (file-name-base (buffer-file-name)))) nil t)))
 
-(setq lsp-signature-auto-activate nil)
 
 (if (not (display-graphic-p))
   (custom-set-faces! '(default :background "unspecified-bg"))
@@ -245,10 +244,22 @@
   (evil-define-key 'insert vterm-mode-map (kbd "C-g")      #'vterm--self-insert)
   (evil-define-key 'insert vterm-mode-map (kbd "C-c")      #'vterm--self-insert)
   (evil-define-key 'insert vterm-mode-map (kbd "C-SPC")    #'vterm--self-insert)
-  (evil-define-key 'normal vterm-mode-map (kbd "C-d")      #'vterm--self-insert)
   (evil-define-key 'normal vterm-mode-map (kbd ",c")       #'multi-vterm)
   (evil-define-key 'normal vterm-mode-map (kbd ",n")       #'multi-vterm-next)
   (evil-define-key 'normal vterm-mode-map (kbd ",p")       #'multi-vterm-prev)
   (evil-define-key 'normal vterm-mode-map (kbd "i")        #'evil-insert-resume)
   (evil-define-key 'normal vterm-mode-map (kbd "o")        #'evil-insert-resume)
   (evil-define-key 'normal vterm-mode-map (kbd "<return>") #'evil-insert-resume))
+
+(setq projectile-indexing-method 'hybrid)
+(setq rustic-lsp-server 'rust-analyzer)
+(setq lsp-signature-auto-activate nil)
+
+(after! ccls
+  (setq ccls-initialization-options
+    '(:clang (:extraArgs [
+                           "-isystem"
+                           "/usr/local/opt/llvm/include/c++/v1"
+                           ]
+                  :resourceDir "/usr/local/opt/llvm/lib/clang/9.0.0")))
+  )
