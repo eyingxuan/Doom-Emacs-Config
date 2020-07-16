@@ -263,3 +263,13 @@
                            ]
                   :resourceDir "/usr/local/opt/llvm/lib/clang/9.0.0")))
   )
+
+(use-package! org-roam
+  :ensure t
+  :hook
+  (after-init . org-roam-mode)
+  :custom
+  (org-roam-directory "~/Dropbox/org/brain/")
+  )
+
+(setq deft-directory "~/Dropbox/org/brain")
