@@ -45,3 +45,6 @@
 (package! org-fancy-priorities)
 (package! vagrant-tramp)
 (package! multi-vterm)
+(package! org-download)
+(package! org-cliplink)
+(package! org-roam-server)
