@@ -255,14 +255,15 @@
 (setq rustic-lsp-server 'rust-analyzer)
 (setq lsp-signature-auto-activate nil)
 
-(after! ccls
-  (setq ccls-initialization-options
-    '(:clang (:extraArgs [
-                           "-isystem"
-                           "/usr/local/opt/llvm/include/c++/v1"
-                           ]
-                  :resourceDir "/usr/local/opt/llvm/lib/clang/9.0.0")))
-  )
+
+(after! irony
+  (setq irony-additional-clang-options [
+                                         "-I/usr/local/include"
+                                         "-I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1"
+                                         "-I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/11.0.3/include"
+                                         "-I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include"
+                                         "-I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"
+                                         ]))
 
 (use-package! org-roam
   :ensure t
@@ -276,7 +277,7 @@
   :ensure t
   :config
   (setq org-roam-server-host "127.0.0.1"
-        org-roam-server-port 8080
+        org-roam-server-port 8081
         org-roam-server-export-inline-images t
         org-roam-server-authenticate nil
         org-roam-server-network-poll t
