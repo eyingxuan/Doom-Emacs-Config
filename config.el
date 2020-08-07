@@ -265,6 +265,11 @@
                                          "-I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"
                                          ]))
 
+(defun disable-c++-namespace ()
+  (c-set-offset 'innamespace [0]))
+(add-hook 'c++-mode-hook 'disable-c++-namespace)
+
+
 (use-package! org-roam
   :ensure t
   :hook
