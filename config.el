@@ -271,7 +271,6 @@
 
 
 (use-package! org-roam
-  :ensure t
   :hook
   (after-init . org-roam-mode)
   :custom
@@ -279,7 +278,6 @@
   )
 
 (use-package! org-roam-server
-  :ensure t
   :config
   (setq org-roam-server-host "127.0.0.1"
         org-roam-server-port 8081
@@ -294,3 +292,9 @@
 
 
 (setq deft-directory "~/Dropbox/org/brain")
+
+(after! flycheck
+  (flycheck-add-mode 'tsx-tide 'typescript-tsx-mode)
+  (flycheck-add-next-checker 'tsx-tide '(error . javascript-eslint))
+  (flycheck-add-next-checker 'typescript-tide '(error . javascript-eslint))
+  )
