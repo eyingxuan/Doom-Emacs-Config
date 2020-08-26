@@ -107,14 +107,14 @@
   (setq org-ellipsis " ▾ ")
   (setq org-tag-alist '((:startgroup . nil)
                         ("@school" . ?w) ("@personal" . ?h) ("@jobs" . ?j)
-                         (:endgroup . nil)
-                         (:startgroup . nil)
-                         ("@today" . ?t)
-                         ("@submit" . ?s)
-                         ("@next" .?n)
-                         ("@blocked" . ?b)
-                         (:endgroup . nil)
-                         )
+                        (:endgroup . nil)
+                        (:startgroup . nil)
+                        ("@today" . ?t)
+                        ("@submit" . ?s)
+                        ("@next" .?n)
+                        ("@blocked" . ?b)
+                        (:endgroup . nil)
+                        )
         )
   )
 
@@ -143,20 +143,20 @@
                  ((org-agenda-overriding-header "To Refile")
                   (org-agenda-files '("~/Dropbox/org/inbox.org"))))
            (tags-todo "@today"
-                 ((org-agenda-overriding-header "Today")
-                  (org-agenda-files '("~/Dropbox/org/todo.org" "~/Dropbox/org/projects.org" "~/Dropbox/org/habits.org"))))
+                      ((org-agenda-overriding-header "Today")
+                       (org-agenda-files '("~/Dropbox/org/todo.org" "~/Dropbox/org/projects.org" "~/Dropbox/org/habits.org"))))
            (tags-todo "@next"
-                 ((org-agenda-overriding-header "In Progress")
-                  (org-agenda-files '("~/Dropbox/org/todo.org" "~/Dropbox/org/projects.org" "~/Dropbox/org/habits.org")
-                                    )))
+                      ((org-agenda-overriding-header "In Progress")
+                       (org-agenda-files '("~/Dropbox/org/todo.org" "~/Dropbox/org/projects.org" "~/Dropbox/org/habits.org")
+                                         )))
            (tags-todo "@blocked"
-                 ((org-agenda-overriding-header "Blocked")
-                  (org-agenda-files '("~/Dropbox/org/todo.org" "~/Dropbox/org/projects.org" "~/Dropbox/org/habits.org")
-                                    )))
+                      ((org-agenda-overriding-header "Blocked")
+                       (org-agenda-files '("~/Dropbox/org/todo.org" "~/Dropbox/org/projects.org" "~/Dropbox/org/habits.org")
+                                         )))
            (tags-todo "@submit"
-                 ((org-agenda-overriding-header "Submit")
-                  (org-agenda-files '("~/Dropbox/org/todo.org" "~/Dropbox/org/projects.org" "~/Dropbox/org/habits.org")
-                                    )))
+                      ((org-agenda-overriding-header "Submit")
+                       (org-agenda-files '("~/Dropbox/org/todo.org" "~/Dropbox/org/projects.org" "~/Dropbox/org/habits.org")
+                                         )))
            (todo "TODO"
                  ((org-agenda-overriding-header "Projects")
                   (org-agenda-files '("~/Dropbox/org/projects.org")))
@@ -225,7 +225,7 @@
 
 
 (if (not (display-graphic-p))
-  (custom-set-faces! '(default :background "unspecified-bg"))
+    (custom-set-faces! '(default :background "unspecified-bg"))
   )
 
 (use-package! multi-vterm
@@ -269,12 +269,12 @@
 
 (after! irony
   (setq irony-additional-clang-options [
-                                         "-I/usr/local/include"
-                                         "-I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1"
-                                         "-I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/11.0.3/include"
-                                         "-I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include"
-                                         "-I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"
-                                         ]))
+                                        "-I/usr/local/include"
+                                        "-I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1"
+                                        "-I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/11.0.3/include"
+                                        "-I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include"
+                                        "-I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"
+                                        ]))
 
 (defun disable-c++-namespace ()
   (c-set-offset 'innamespace [0]))
@@ -290,7 +290,7 @@
 
 (use-package! org-wild-notifier
   :after (org)
-  :hook (org-mode . org-wild-notifier-mode)
+  :hook (org-agenda-mode . org-wild-notifier-mode)
   :config
   (setq alert-default-style 'notifier)
   )
