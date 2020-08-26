@@ -53,9 +53,6 @@
 ;; You can also try 'gd' (or 'C-c g d') to jump to their definition and see how
 ;; they are implemented.
 
-(after! hl-fill-column
-  (custom-set-faces! '(hl-fill-column-face :foreground "black" :background "grey"))
-  )
 
 (map! :ne "M-/" #'comment-or-uncomment-region)
 (setq +word-wrap-extra-indent 'double)
@@ -85,6 +82,8 @@
 
 (after! hl-line
   (remove-hook! (prog-mode text-mode conf-mode) #'hl-line-mode))
+
+(add-hook! (prog-mode) #'display-fill-column-indicator-mode)
 
 (use-package! org-fancy-priorities
   :hook (org-mode . org-fancy-priorities-mode)
