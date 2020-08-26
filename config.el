@@ -61,6 +61,8 @@
 (setq +word-wrap-extra-indent 'double)
 (setq +latex-viewers '(pdf-tools))
 
+(setq read-process-output-max (* 1024 1024))
+
 (after! lsp-ui
   (set-lookup-handlers! 'lsp-ui-mode nil)
   )
@@ -277,6 +279,14 @@
   (org-roam-directory "~/Dropbox/org/brain/")
   )
 
+(use-package! org-wild-notifier
+  :after (org)
+  :config
+  (setq alert-default-style 'notifier)
+  )
+
+
+
 (use-package! org-roam-server
   :config
   (setq org-roam-server-host "127.0.0.1"
@@ -293,7 +303,7 @@
 
 (setq deft-directory "~/Dropbox/org/brain")
 
-(after! flycheck
+(after! tide
   (flycheck-add-mode 'tsx-tide 'typescript-tsx-mode)
   (flycheck-add-next-checker 'tsx-tide '(error . javascript-eslint))
   (flycheck-add-next-checker 'typescript-tide '(error . javascript-eslint))
