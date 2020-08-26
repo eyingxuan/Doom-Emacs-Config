@@ -102,13 +102,20 @@
   (setq org-highest-priority ?A)
   (setq org-lowest-priority ?D)
   (setq org-log-done 'time)
-  (setq org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "TODAY(o)"  "SUBMIT(s)" "|" "DONE(d)" "CANCELLED(c)")))
+  (setq org-todo-keywords '((sequence "TODO(t)" "|" "DONE(d)" "CANCELLED(c)")))
   ;; (setq org-priority-faces
   ;;       '((65 . "#131E3A") (66 . "#1134A6") (67 . "#6693F5") (68 . "#4D516D")))
   (setq org-ellipsis " ▾ ")
   (setq org-tag-alist '((:startgroup . nil)
                         ("@school" . ?w) ("@personal" . ?h) ("@jobs" . ?j)
-                        (:endgroup . nil))
+                         (:endgroup . nil)
+                         (:startgroup . nil)
+                         ("@today" . ?t)
+                         ("@submit" . ?s)
+                         ("@next" .?n)
+                         ("@blocked" . ?b)
+                         (:endgroup . nil)
+                         )
         )
   )
 
@@ -136,15 +143,18 @@
            (todo "TODO"
                  ((org-agenda-overriding-header "To Refile")
                   (org-agenda-files '("~/Dropbox/org/inbox.org"))))
-           (todo "SUBMIT"
-                 ((org-agenda-overriding-header "To Submit")
-                  (org-agenda-files '("~/Dropbox/org/todo.org" "~/Dropbox/org/projects.org" "~/Dropbox/org/habits.org"))
-                  )
-                 )
-           (todo "TODAY"
+           (tags-todo "@today"
                  ((org-agenda-overriding-header "Today")
                   (org-agenda-files '("~/Dropbox/org/todo.org" "~/Dropbox/org/projects.org" "~/Dropbox/org/habits.org"))))
-           (todo "NEXT"
+           (tags-todo "@next"
+                 ((org-agenda-overriding-header "In Progress")
+                  (org-agenda-files '("~/Dropbox/org/todo.org" "~/Dropbox/org/projects.org" "~/Dropbox/org/habits.org")
+                                    )))
+           (tags-todo "@blocked"
+                 ((org-agenda-overriding-header "In Progress")
+                  (org-agenda-files '("~/Dropbox/org/todo.org" "~/Dropbox/org/projects.org" "~/Dropbox/org/habits.org")
+                                    )))
+           (tags-todo "@submit"
                  ((org-agenda-overriding-header "In Progress")
                   (org-agenda-files '("~/Dropbox/org/todo.org" "~/Dropbox/org/projects.org" "~/Dropbox/org/habits.org")
                                     )))
@@ -281,6 +291,7 @@
 
 (use-package! org-wild-notifier
   :after (org)
+  :hook (org-mode . org-wild-notifier-mode)
   :config
   (setq alert-default-style 'notifier)
   )
