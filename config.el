@@ -151,11 +151,11 @@
                   (org-agenda-files '("~/Dropbox/org/todo.org" "~/Dropbox/org/projects.org" "~/Dropbox/org/habits.org")
                                     )))
            (tags-todo "@blocked"
-                 ((org-agenda-overriding-header "In Progress")
+                 ((org-agenda-overriding-header "Blocked")
                   (org-agenda-files '("~/Dropbox/org/todo.org" "~/Dropbox/org/projects.org" "~/Dropbox/org/habits.org")
                                     )))
            (tags-todo "@submit"
-                 ((org-agenda-overriding-header "In Progress")
+                 ((org-agenda-overriding-header "Submit")
                   (org-agenda-files '("~/Dropbox/org/todo.org" "~/Dropbox/org/projects.org" "~/Dropbox/org/habits.org")
                                     )))
            (todo "TODO"
