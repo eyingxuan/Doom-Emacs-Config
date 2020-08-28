@@ -67,6 +67,8 @@
 (after! lsp-mode
   (setq lsp-diagnostics-attributes '((unnecessary :background "gray")
                                      (deprecated :strike-through t)))
+  (setq lsp-pyls-configuration-sources ["flake8"])
+  (setq lsp-pyls-plugins-flake8-enabled t)
   )
 
 (after! tuareg
@@ -123,6 +125,11 @@
   ;;   ( :prefix "m"
   ;;    "p" #'org-agenda-priority
   ;;     ))
+  ;;
+
+
+
+
   (map! (:map org-agenda-mode-map :localleader "p" #'org-agenda-priority))
   (advice-add 'org-refile :after
               (lambda (&rest _)
