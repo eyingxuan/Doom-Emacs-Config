@@ -97,7 +97,7 @@
   (add-to-list 'org-agenda-files "~/org/labs.org")
   (setq org-capture-templates
         '(("i" "inbox" entry (file "~/Dropbox/org/inbox.org") "* TODO %?")
-          ("t" "today" entry (file "~/Dropbox/org/todo.org") "* TODAY %?")))
+          ("t" "instant" entry (file "~/Dropbox/org/todo.org") "* TODO %? %^g")))
   (add-to-list 'org-modules 'org-habit t)
   (setq org-agenda-start-day nil)
   (setq org-highest-priority ?A)
@@ -113,7 +113,7 @@
                         (:startgroup . nil)
                         ("@today" . ?t)
                         ("@submit" . ?s)
-                        ("@next" .?n)
+                        ("@progress" .?p)
                         ("@blocked" . ?b)
                         (:endgroup . nil)
                         )
@@ -152,7 +152,7 @@
            (tags-todo "@today"
                       ((org-agenda-overriding-header "Today")
                        (org-agenda-files '("~/Dropbox/org/todo.org" "~/Dropbox/org/projects.org" "~/Dropbox/org/habits.org"))))
-           (tags-todo "@next"
+           (tags-todo "@progress"
                       ((org-agenda-overriding-header "In Progress")
                        (org-agenda-files '("~/Dropbox/org/todo.org" "~/Dropbox/org/projects.org" "~/Dropbox/org/habits.org")
                                          )))
