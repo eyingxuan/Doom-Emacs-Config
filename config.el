@@ -300,12 +300,12 @@
   :hook (org-agenda-mode . org-wild-notifier-mode)
   :config
   (setq alert-default-style 'notifier)
+  (setq org-wild-notifier-alert-time '(3))
   )
 
 
 
 (use-package! org-roam-server
-  :ensure t
   :config
   (setq org-roam-server-host "127.0.0.1"
         org-roam-server-port 8081
@@ -328,3 +328,10 @@
   (flycheck-add-next-checker 'tsx-tide '(error . javascript-eslint))
   (flycheck-add-next-checker 'typescript-tide '(error . javascript-eslint))
   )
+
+(use-package! lsp-haskell
+ :config
+ (setq lsp-haskell-process-path-hie "haskell-language-server-wrapper")
+ ;; Comment/uncomment this line to see interactions between lsp client/server.
+ ;;(setq lsp-log-io t)
+)
