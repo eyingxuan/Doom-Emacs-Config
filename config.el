@@ -59,13 +59,15 @@
 (setq +latex-viewers '(pdf-tools))
 
 (setq read-process-output-max (* 1024 1024))
+(setq gc-cons-threshold 100000000)
+(setq lsp-idle-delay 2)
 
 (after! lsp-ui
   (set-lookup-handlers! 'lsp-ui-mode nil)
   )
 
 (after! lsp-mode
-  (setq lsp-diagnostics-attributes '((unnecessary :background "gray")
+  (setq lsp-diagnostics-attributes '((unnecessary :background "dim gray")
                                      (deprecated :strike-through t)))
   (setq lsp-pyls-configuration-sources ["flake8"])
   (setq lsp-pyls-plugins-flake8-enabled t)
@@ -287,25 +289,39 @@
   (c-set-offset 'innamespace [0]))
 (add-hook 'c++-mode-hook 'disable-c++-namespace)
 
+(after! org-roam
+  (setq org-roam-directory "~/Dropbox/org/brain")
 
-(use-package! org-roam
-  :hook
-  (after-init . org-roam-mode)
-  :custom
-  (org-roam-directory "~/Dropbox/org/brain/")
   )
+
+
 
 (use-package! org-wild-notifier
   :after (org)
   :hook (org-agenda-mode . org-wild-notifier-mode)
   :config
-  (setq alert-default-style 'notifier)
+  (defun alert-notifier-custom (info)
+    (if alert-notifier-command
+        (let ((args
+               (list "-title"   (alert-encode-string (plist-get info :title))
+                     "-appIcon" (or (plist-get info :icon) alert-notifier-default-icon)
+                     "-message" (alert-encode-string (plist-get info :message))
+                     "-sound" "default"
+                     )))
+          (apply #'call-process alert-notifier-command nil nil nil args))
+      (alert-message-notify info)))
+
+  (alert-define-style 'custom-tnotifier :title "Notify using modified terminal-notifier"
+                      :notifier #'alert-notifier-custom)
+
+  (setq alert-default-style 'custom-tnotifier)
+  (setq org-wild-notifier-keyword-whitelist '())
   (setq org-wild-notifier-alert-time '(3))
   )
 
 
-
 (use-package! org-roam-server
+  :after (org-roam)
   :config
   (setq org-roam-server-host "127.0.0.1"
         org-roam-server-port 8081
@@ -330,8 +346,17 @@
   )
 
 (use-package! lsp-haskell
- :config
- (setq lsp-haskell-process-path-hie "haskell-language-server-wrapper")
- ;; Comment/uncomment this line to see interactions between lsp client/server.
- ;;(setq lsp-log-io t)
-)
+  :config
+  (setq lsp-haskell-process-path-hie "haskell-language-server-wrapper")
+  ;; Comment/uncomment this line to see interactions between lsp client/server.
+  ;;(setq lsp-log-io t)
+  )
+
+(setq
+ mac-right-option-modifier 'meta
+ ns-right-option-modifier 'meta
+ )
+
+(setq
+ evil-undo-system 'undo-fu
+ )
