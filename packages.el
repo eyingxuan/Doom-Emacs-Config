@@ -47,6 +47,8 @@
 (package! org-download)
 (package! org-cliplink)
 (package! org-roam-server)
-(package! multi-vterm)
 (package! org-wild-notifier)
 (package! xcscope)
+
+(when (package! vterm)
+  (package! multi-vterm))

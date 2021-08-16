@@ -108,7 +108,7 @@
        cc                 ; C/C++/Obj-C madness
        (clojure +lsp)           ; java with a lisp
        ;;common-lisp       ; if you've seen one lisp, you've seen them all
-       ;;coq               ; proofs-as-programs
+       coq               ; proofs-as-programs
   ;; https://github.com/hlissner/doom-emacs/issues/2788#issuecomment-648980837
        ;;crystal           ; ruby at the speed of c
        ;;csharp            ; unity, .NET, and mono shenanigans

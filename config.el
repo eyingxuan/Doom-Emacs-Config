@@ -19,7 +19,7 @@
 ;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
 ;; font string. You generally only need these two:
 ;; test
-(setq doom-font (font-spec :family "Hack" :size 16)
+(setq doom-font (font-spec :family "Fira Code" :size 16)
       doom-variable-pitch-font (font-spec :family "Noto Sans"))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
@@ -78,6 +78,9 @@
   ;;   :definition #'merlin-locate
   ;;   :references #'merlin-occurrences
   ;;   :documentation #'merlin-document)
+  (add-hook! 'tuareg-mode-hook (lambda ()
+                                 (add-hook 'before-save-hook #'ocamlformat-before-save)
+                                 ))
   (remove-hook! 'tuareg-mode-local-vars-hook #'flyspell-prog-mode)
   )
 
@@ -123,16 +126,6 @@
   )
 
 (after! org-agenda
-  ;; (map! :leader
-  ;;   ( :prefix "m"
-  ;;    "p" #'org-agenda-priority
-  ;;     ))
-  ;;
-
-
-
-
-  (map! (:map org-agenda-mode-map :localleader "p" #'org-agenda-priority))
   (advice-add 'org-refile :after
               (lambda (&rest _)
                 (org-save-all-org-buffers)))
@@ -216,6 +209,7 @@
   (setq font-latex-fontify-script nil))
 
 (add-to-list 'auto-mode-alist '("\\.js\\'" . rjsx-mode))
+(add-to-list 'auto-mode-alist '("\\.tsx?\\'" . typescript-mode))
 
 
 (after! editorconfig
@@ -238,38 +232,39 @@
   )
 
 (use-package! multi-vterm
-  :config
-  (add-hook 'vterm-mode-hook
-            (lambda ()
-              (setq-local evil-insert-state-cursor 'box)
-              (evil-insert-state)))
-  (define-key vterm-mode-map [return]                      #'vterm-send-return)
+ :when (featurep! :term vterm)
+ :config
+ (add-hook 'vterm-mode-hook
+           (lambda ()
+             (setq-local evil-insert-state-cursor 'box)
+             (evil-insert-state)))
+ (define-key vterm-mode-map [return]                      #'vterm-send-return)
 
-  (setq vterm-keymap-exceptions nil)
-  (evil-define-key 'insert vterm-mode-map (kbd "C-e")      #'vterm--self-insert)
-  (evil-define-key 'insert vterm-mode-map (kbd "C-f")      #'vterm--self-insert)
-  (evil-define-key 'insert vterm-mode-map (kbd "C-a")      #'vterm--self-insert)
-  (evil-define-key 'insert vterm-mode-map (kbd "C-v")      #'vterm--self-insert)
-  (evil-define-key 'insert vterm-mode-map (kbd "C-b")      #'vterm--self-insert)
-  (evil-define-key 'insert vterm-mode-map (kbd "C-w")      #'vterm--self-insert)
-  (evil-define-key 'insert vterm-mode-map (kbd "C-u")      #'vterm--self-insert)
-  (evil-define-key 'insert vterm-mode-map (kbd "C-d")      #'vterm--self-insert)
-  (evil-define-key 'insert vterm-mode-map (kbd "C-n")      #'vterm--self-insert)
-  (evil-define-key 'insert vterm-mode-map (kbd "C-m")      #'vterm--self-insert)
-  (evil-define-key 'insert vterm-mode-map (kbd "C-p")      #'vterm--self-insert)
-  (evil-define-key 'insert vterm-mode-map (kbd "C-j")      #'vterm--self-insert)
-  (evil-define-key 'insert vterm-mode-map (kbd "C-k")      #'vterm--self-insert)
-  (evil-define-key 'insert vterm-mode-map (kbd "C-r")      #'vterm--self-insert)
-  (evil-define-key 'insert vterm-mode-map (kbd "C-t")      #'vterm--self-insert)
-  (evil-define-key 'insert vterm-mode-map (kbd "C-g")      #'vterm--self-insert)
-  (evil-define-key 'insert vterm-mode-map (kbd "C-c")      #'vterm--self-insert)
-  (evil-define-key 'insert vterm-mode-map (kbd "C-SPC")    #'vterm--self-insert)
-  (evil-define-key 'normal vterm-mode-map (kbd ",c")       #'multi-vterm)
-  (evil-define-key 'normal vterm-mode-map (kbd ",n")       #'multi-vterm-next)
-  (evil-define-key 'normal vterm-mode-map (kbd ",p")       #'multi-vterm-prev)
-  (evil-define-key 'normal vterm-mode-map (kbd "i")        #'evil-insert-resume)
-  (evil-define-key 'normal vterm-mode-map (kbd "o")        #'evil-insert-resume)
-  (evil-define-key 'normal vterm-mode-map (kbd "<return>") #'evil-insert-resume))
+ (setq vterm-keymap-exceptions nil)
+ (evil-define-key 'insert vterm-mode-map (kbd "C-e")      #'vterm--self-insert)
+ (evil-define-key 'insert vterm-mode-map (kbd "C-f")      #'vterm--self-insert)
+ (evil-define-key 'insert vterm-mode-map (kbd "C-a")      #'vterm--self-insert)
+ (evil-define-key 'insert vterm-mode-map (kbd "C-v")      #'vterm--self-insert)
+ (evil-define-key 'insert vterm-mode-map (kbd "C-b")      #'vterm--self-insert)
+ (evil-define-key 'insert vterm-mode-map (kbd "C-w")      #'vterm--self-insert)
+ (evil-define-key 'insert vterm-mode-map (kbd "C-u")      #'vterm--self-insert)
+ (evil-define-key 'insert vterm-mode-map (kbd "C-d")      #'vterm--self-insert)
+ (evil-define-key 'insert vterm-mode-map (kbd "C-n")      #'vterm--self-insert)
+ (evil-define-key 'insert vterm-mode-map (kbd "C-m")      #'vterm--self-insert)
+ (evil-define-key 'insert vterm-mode-map (kbd "C-p")      #'vterm--self-insert)
+ (evil-define-key 'insert vterm-mode-map (kbd "C-j")      #'vterm--self-insert)
+ (evil-define-key 'insert vterm-mode-map (kbd "C-k")      #'vterm--self-insert)
+ (evil-define-key 'insert vterm-mode-map (kbd "C-r")      #'vterm--self-insert)
+ (evil-define-key 'insert vterm-mode-map (kbd "C-t")      #'vterm--self-insert)
+ (evil-define-key 'insert vterm-mode-map (kbd "C-g")      #'vterm--self-insert)
+ (evil-define-key 'insert vterm-mode-map (kbd "C-c")      #'vterm--self-insert)
+ (evil-define-key 'insert vterm-mode-map (kbd "C-SPC")    #'vterm--self-insert)
+ (evil-define-key 'normal vterm-mode-map (kbd ",c")       #'multi-vterm)
+ (evil-define-key 'normal vterm-mode-map (kbd ",n")       #'multi-vterm-next)
+ (evil-define-key 'normal vterm-mode-map (kbd ",p")       #'multi-vterm-prev)
+ (evil-define-key 'normal vterm-mode-map (kbd "i")        #'evil-insert-resume)
+ (evil-define-key 'normal vterm-mode-map (kbd "o")        #'evil-insert-resume)
+ (evil-define-key 'normal vterm-mode-map (kbd "<return>") #'evil-insert-resume))
 
 (setq projectile-indexing-method 'hybrid)
 (setq rustic-lsp-server 'rust-analyzer)
@@ -360,3 +355,9 @@
 (setq
  evil-undo-system 'undo-fu
  )
+
+(setq-hook! 'typescript-mode-hook +format-with-lsp nil)
+
+;; temp workaround for weird org mode issues
+;; https://github.com/hlissner/doom-emacs/issues/3172
+(add-hook 'org-mode-hook (lambda () (electric-indent-local-mode -1)))
